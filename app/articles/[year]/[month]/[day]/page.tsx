@@ -8,6 +8,8 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { TagList } from '../../../../components/tag-badge'
 
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   const articlesDirectory = path.join(process.cwd(), 'content', 'articles')
   
@@ -49,7 +51,7 @@ export async function generateStaticParams() {
             const { data } = matter(fileContent)
             
             // 公開済みの記事のみ静的パラメータに含める
-            if (data.isPublished !== false) {
+            if (data.isPublished === true) {
               params.push({ year, month, day })
             }
           } catch (error) {

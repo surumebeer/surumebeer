@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation'
 import remarkGfm from 'remark-gfm'
 import type { Metadata } from 'next'
 
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   const cssTipsDirectory = path.join(process.cwd(), 'content', 'css-tips')
   
@@ -47,7 +49,7 @@ export async function generateStaticParams() {
             const { data } = matter(fileContent)
             
             // 公開済みの記事のみ静的パラメータに含める
-            if (data.isPublished !== false) {
+            if (data.isPublished === true) {
               params.push({ year, month, day })
             }
           } catch (error) {

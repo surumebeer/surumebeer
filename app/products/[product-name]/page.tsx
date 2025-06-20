@@ -8,6 +8,8 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   const productsDirectory = path.join(process.cwd(), 'content', 'products')
   
@@ -34,7 +36,7 @@ export async function generateStaticParams() {
         const { data } = matter(fileContent)
         
         // 公開済みの商品のみ静的パラメータに含める
-        if (data.isPublished !== false) {
+        if (data.isPublished === true) {
           params.push({ 'product-name': productName })
         }
       } catch (error) {
