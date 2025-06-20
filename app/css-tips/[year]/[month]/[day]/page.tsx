@@ -5,6 +5,63 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { notFound } from 'next/navigation'
 import remarkGfm from 'remark-gfm'
 
+export async function generateStaticParams() {
+  const cssTipsDirectory = path.join(process.cwd(), 'css-tips')
+  
+  if (!fs.existsSync(cssTipsDirectory)) {
+    return []
+  }
+  
+  const params: { year: string; month: string; day: string }[] = []
+  
+  try {
+    const years = fs.readdirSync(cssTipsDirectory, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+    
+    for (const year of years) {
+      const yearPath = path.join(cssTipsDirectory, year)
+      
+      const months = fs.readdirSync(yearPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+      
+      for (const month of months) {
+        const monthPath = path.join(yearPath, month)
+        
+        const days = fs.readdirSync(monthPath, { withFileTypes: true })
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name)
+        
+        for (const day of days) {
+          const dayPath = path.join(monthPath, day)
+          const articlePath = path.join(dayPath, 'article.md')
+          
+          if (!fs.existsSync(articlePath)) {
+            continue
+          }
+          
+          try {
+            const fileContent = fs.readFileSync(articlePath, 'utf8')
+            const { data } = matter(fileContent)
+            
+            // 公開済みの記事のみ静的パラメータに含める
+            if (data.isPublished !== false) {
+              params.push({ year, month, day })
+            }
+          } catch (error) {
+            console.error(`Error reading file ${articlePath}:`, error)
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error generating static params for css-tips:', error)
+  }
+  
+  return params
+}
+
 interface PageProps {
   params: Promise<{
     year: string

@@ -6,6 +6,58 @@ import html from 'remark-html'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 
+export async function generateStaticParams() {
+  const articlesDirectory = path.join(process.cwd(), 'articles')
+  
+  if (!fs.existsSync(articlesDirectory)) {
+    return []
+  }
+  
+  const params: { year: string; month: string; day: string }[] = []
+  
+  try {
+    const years = fs.readdirSync(articlesDirectory, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+    
+    for (const year of years) {
+      const yearPath = path.join(articlesDirectory, year)
+      
+      const months = fs.readdirSync(yearPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+      
+      for (const month of months) {
+        const monthPath = path.join(yearPath, month)
+        
+        const files = fs.readdirSync(monthPath)
+          .filter(file => file.endsWith('.md'))
+        
+        for (const file of files) {
+          const day = file.replace('.md', '')
+          const filePath = path.join(monthPath, file)
+          
+          try {
+            const fileContent = fs.readFileSync(filePath, 'utf8')
+            const { data } = matter(fileContent)
+            
+            // 公開済みの記事のみ静的パラメータに含める
+            if (data.isPublished !== false) {
+              params.push({ year, month, day })
+            }
+          } catch (error) {
+            console.error(`Error reading file ${filePath}:`, error)
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error generating static params for articles:', error)
+  }
+  
+  return params
+}
+
 interface PageProps {
   params: Promise<{
     year: string
