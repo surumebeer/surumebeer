@@ -19,7 +19,7 @@ interface Article {
 }
 
 async function getArticles(): Promise<Article[]> {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
+  const articlesDirectory = path.join(process.cwd(), 'content', 'articles')
   
   if (!fs.existsSync(articlesDirectory)) {
     return []

@@ -9,7 +9,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  const productsDirectory = path.join(process.cwd(), 'products')
+  const productsDirectory = path.join(process.cwd(), 'content', 'products')
   
   if (!fs.existsSync(productsDirectory)) {
     return []
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function getProductContent(productName: string) {
-  const filePath = path.join(process.cwd(), 'products', productName, 'article.md')
+  const filePath = path.join(process.cwd(), 'content', 'products', productName, 'article.md')
   
   try {
     const fileContent = fs.readFileSync(filePath, 'utf8')

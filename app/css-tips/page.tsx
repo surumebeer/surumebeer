@@ -19,7 +19,7 @@ interface CssTip {
 }
 
 async function getCssTips(): Promise<CssTip[]> {
-  const cssTipsDirectory = path.join(process.cwd(), 'css-tips')
+  const cssTipsDirectory = path.join(process.cwd(), 'content', 'css-tips')
   
   if (!fs.existsSync(cssTipsDirectory)) {
     return []

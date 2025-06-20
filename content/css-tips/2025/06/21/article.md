@@ -4,7 +4,7 @@ date: 2025-06-21
 isPublished: false
 ---
 
-# CSS Grid完全ガイド（非公開版）
+# CSS Grid 完全ガイド（非公開版）
 
 この記事は非公開設定になっているため、一覧には表示されません。
 
@@ -24,4 +24,4 @@ isPublished: false
   </div>
 </CodeDemo>
 
-この記事は `isPublished: false` が設定されているため、一覧に表示されず、直接アクセスしても404になります。
+この記事は `isPublished: false` が設定されているため、一覧に表示されず、直接アクセスしても 404 になります。

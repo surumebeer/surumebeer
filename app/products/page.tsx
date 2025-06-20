@@ -19,7 +19,7 @@ interface Product {
 }
 
 async function getProducts(): Promise<Product[]> {
-  const productsDirectory = path.join(process.cwd(), 'products')
+  const productsDirectory = path.join(process.cwd(), 'content', 'products')
   
   if (!fs.existsSync(productsDirectory)) {
     return []

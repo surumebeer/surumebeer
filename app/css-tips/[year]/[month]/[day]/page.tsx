@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm'
 import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  const cssTipsDirectory = path.join(process.cwd(), 'css-tips')
+  const cssTipsDirectory = path.join(process.cwd(), 'content', 'css-tips')
   
   if (!fs.existsSync(cssTipsDirectory)) {
     return []
@@ -131,7 +131,7 @@ const components = {
 }
 
 async function getCssTipContent(year: string, month: string, day: string) {
-  const filePath = path.join(process.cwd(), 'css-tips', year, month, day, 'article.md')
+  const filePath = path.join(process.cwd(), 'content', 'css-tips', year, month, day, 'article.md')
   
   try {
     const fileContent = fs.readFileSync(filePath, 'utf8')

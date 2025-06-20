@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
+  const articlesDirectory = path.join(process.cwd(), 'content', 'articles')
   
   if (!fs.existsSync(articlesDirectory)) {
     return []
@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function getArticleContent(year: string, month: string, day: string) {
-  const filePath = path.join(process.cwd(), 'articles', year, month, day, 'article.md')
+  const filePath = path.join(process.cwd(), 'content', 'articles', year, month, day, 'article.md')
   
   try {
     const fileContent = fs.readFileSync(filePath, 'utf8')
