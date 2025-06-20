@@ -47,6 +47,11 @@ export async function generateStaticParams() {
     console.error('Error generating static params for products:', error)
   }
   
+  // 静的エクスポートモードでは空配列を返せないため、フォールバック用のダミーパラメータを追加
+  if (params.length === 0) {
+    params.push({ 'product-name': 'no-products' })
+  }
+  
   return params
 }
 

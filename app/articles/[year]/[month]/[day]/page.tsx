@@ -64,6 +64,11 @@ export async function generateStaticParams() {
     console.error('Error generating static params for articles:', error)
   }
   
+  // 静的エクスポートモードでは空配列を返せないため、フォールバック用のダミーパラメータを追加
+  if (params.length === 0) {
+    params.push({ year: '1970', month: '01', day: '01' })
+  }
+  
   return params
 }
 
