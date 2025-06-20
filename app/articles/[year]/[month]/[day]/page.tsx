@@ -3,6 +3,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
+import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 
 interface PageProps {
@@ -21,10 +22,16 @@ async function getArticleContent(year: string, month: string, day: string) {
     const { data, content } = matter(fileContent)
     
     const processedContent = await remark()
+      .use(remarkGfm)
       .use(html)
       .process(content)
     
     const contentHtml = processedContent.toString()
+    
+    // isPublishedがfalseの場合はnullを返す
+    if (data.isPublished === false) {
+      return null
+    }
     
     return {
       metadata: data,

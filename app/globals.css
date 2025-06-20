@@ -175,16 +175,31 @@
   }
   
   .prose table {
-    @apply w-full border-collapse border border-border mb-4;
+    @apply w-full border-collapse mb-4;
+    border: 1px solid hsl(var(--border));
   }
   
-  .prose th,
-  .prose td {
-    @apply border border-border px-4 py-2 text-left;
+  .prose thead {
+    @apply bg-muted;
   }
   
   .prose th {
-    @apply bg-muted font-semibold;
+    @apply px-4 py-3 text-left font-semibold text-foreground;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--muted));
+  }
+  
+  .prose td {
+    @apply px-4 py-3 text-foreground;
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .prose tbody tr:nth-child(even) {
+    background-color: hsl(var(--muted) / 0.3);
+  }
+  
+  .prose tbody tr:hover {
+    background-color: hsl(var(--muted) / 0.5);
   }
   
   .prose hr {
