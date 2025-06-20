@@ -6,6 +6,7 @@ import html from 'remark-html'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
   const productsDirectory = path.join(process.cwd(), 'products')
@@ -51,6 +52,21 @@ interface PageProps {
   params: Promise<{
     'product-name': string
   }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { 'product-name': productName } = await params
+  const product = await getProductContent(productName)
+  
+  if (!product) {
+    return {
+      title: "商品が見つかりません"
+    }
+  }
+  
+  return {
+    title: `${product.metadata.title || 'Untitled'} - ${product.metadata.date || ''}`
+  }
 }
 
 async function getProductContent(productName: string) {

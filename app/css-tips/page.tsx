@@ -2,6 +2,11 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import Link from "next/link"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "CSS TIPS",
+}
 
 interface CssTip {
   slug: string

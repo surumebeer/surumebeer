@@ -5,6 +5,7 @@ import { remark } from 'remark'
 import html from 'remark-html'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
   const articlesDirectory = path.join(process.cwd(), 'articles')
@@ -64,6 +65,21 @@ interface PageProps {
     month: string
     day: string
   }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { year, month, day } = await params
+  const article = await getArticleContent(year, month, day)
+  
+  if (!article) {
+    return {
+      title: "記事が見つかりません"
+    }
+  }
+  
+  return {
+    title: `${article.metadata.title || 'Untitled'} - ${article.metadata.date || `${year}-${month}-${day}`}`
+  }
 }
 
 async function getArticleContent(year: string, month: string, day: string) {

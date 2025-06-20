@@ -3,6 +3,11 @@ import path from 'path'
 import matter from 'gray-matter'
 import Link from "next/link"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Products",
+}
 
 interface Product {
   slug: string

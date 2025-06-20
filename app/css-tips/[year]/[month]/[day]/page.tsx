@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { notFound } from 'next/navigation'
 import remarkGfm from 'remark-gfm'
+import type { Metadata } from 'next'
 
 export async function generateStaticParams() {
   const cssTipsDirectory = path.join(process.cwd(), 'css-tips')
@@ -68,6 +69,21 @@ interface PageProps {
     month: string
     day: string
   }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { year, month, day } = await params
+  const cssTip = await getCssTipContent(year, month, day)
+  
+  if (!cssTip) {
+    return {
+      title: "CSS TIPSが見つかりません"
+    }
+  }
+  
+  return {
+    title: `${cssTip.metadata.title || 'Untitled'} - ${cssTip.metadata.date || `${year}-${month}-${day}`}`
+  }
 }
 
 // MDXで使用可能なカスタムコンポーネント
