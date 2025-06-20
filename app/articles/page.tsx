@@ -3,6 +3,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import Link from "next/link"
 import type { Metadata } from "next"
+import { TagList } from '../components/tag-badge'
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -16,6 +17,7 @@ interface Article {
   year: string
   month: string
   day: string
+  tags?: string[]
 }
 
 async function getArticles(): Promise<Article[]> {
@@ -73,7 +75,8 @@ async function getArticles(): Promise<Article[]> {
             isPublished: data.isPublished !== false, // デフォルトはtrue
             year,
             month,
-            day
+            day,
+            tags: data.tags || []
           })
         } catch (error) {
           console.error(`Error reading file ${articlePath}:`, error)
@@ -106,13 +109,18 @@ export default async function ArticlesPage() {
               className="block p-6 border rounded-lg hover:bg-accent transition-colors"
             >
               <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
-              <time className="text-sm text-muted-foreground">
-                {new Date(article.date).toLocaleDateString('ja-JP', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
+              <div className="flex flex-col gap-2">
+                <time className="text-sm text-muted-foreground">
+                  {new Date(article.date).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                {article.tags && article.tags.length > 0 && (
+                  <TagList tags={article.tags} size="sm" />
+                )}
+              </div>
             </Link>
           ))}
         </div>

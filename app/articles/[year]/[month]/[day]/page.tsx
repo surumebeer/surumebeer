@@ -6,6 +6,7 @@ import html from 'remark-html'
 import remarkGfm from 'remark-gfm'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { TagList } from '../../../../components/tag-badge'
 
 export async function generateStaticParams() {
   const articlesDirectory = path.join(process.cwd(), 'content', 'articles')
@@ -129,11 +130,16 @@ export default async function ArticlePage({ params }: PageProps) {
         {article.metadata.title && (
           <h1 className="text-4xl font-bold mb-4">{article.metadata.title}</h1>
         )}
-        {article.metadata.date && (
-          <time className="text-muted-foreground text-sm block mb-8">
-            {new Date(article.metadata.date).toLocaleDateString('ja-JP')}
-          </time>
-        )}
+        <div className="flex flex-col gap-4 mb-8">
+          {article.metadata.date && (
+            <time className="text-muted-foreground text-sm">
+              {new Date(article.metadata.date).toLocaleDateString('ja-JP')}
+            </time>
+          )}
+          {article.metadata.tags && (
+            <TagList tags={article.metadata.tags} />
+          )}
+        </div>
         <div 
           className="prose"
           dangerouslySetInnerHTML={{ __html: article.contentHtml }} 

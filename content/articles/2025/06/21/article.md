@@ -2,6 +2,7 @@
 title: "Next.js 15の新機能"
 date: 2025-06-21
 isPublished: true
+tags: ["Next.js", "React", "Web開発", "フレームワーク"]
 ---
 
 # Next.js 15 の新機能

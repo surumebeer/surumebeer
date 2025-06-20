@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create:articles": "node scripts/create-content.js articles",
+    "create:products": "node scripts/create-content.js products",
+    "create:css-tips": "node scripts/create-content.js css-tips"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
