@@ -1,12 +1,12 @@
 ---
 title: "Flexboxでセンタリングをマスターしよう"
 date: 2025-06-20
-isPublished: true
+isPublished: false
 ---
 
-# Flexboxでセンタリングをマスターしよう
+# Flexbox でセンタリングをマスターしよう
 
-Flexboxを使ったセンタリングテクニックを学びましょう。Reactコンポーネントを使ってインタラクティブに説明します。
+Flexbox を使ったセンタリングテクニックを学びましょう。React コンポーネントを使ってインタラクティブに説明します。
 
 ## 基本的なセンタリング
 
@@ -52,7 +52,7 @@ Flexboxを使ったセンタリングテクニックを学びましょう。Reac
 
 ## 色の使い方
 
-Flexboxと組み合わせてよく使う色の例：
+Flexbox と組み合わせてよく使う色の例：
 
 <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', margin: '16px 0' }}>
   <ColorBox color="#007acc" name="Primary Blue" />
@@ -84,11 +84,11 @@ Flexboxと組み合わせてよく使う色の例：
 
 ## まとめ
 
-Flexboxを使えば、複雑なレイアウトも簡単に実現できます：
+Flexbox を使えば、複雑なレイアウトも簡単に実現できます：
 
-- `display: flex` でFlexコンテナを作成
+- `display: flex` で Flex コンテナを作成
 - `justify-content` で主軸方向の配置を制御
 - `align-items` で交差軸方向の配置を制御
 - `gap` で要素間の余白を設定
 
-これらの基本を押さえておけば、モダンなWebレイアウトが簡単に作れます！
+これらの基本を押さえておけば、モダンな Web レイアウトが簡単に作れます！
