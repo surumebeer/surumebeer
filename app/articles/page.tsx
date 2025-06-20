@@ -43,16 +43,22 @@ async function getArticles(): Promise<Article[]> {
     for (const month of months) {
       const monthPath = path.join(yearPath, month)
       
-      // .mdファイルを取得
-      const files = fs.readdirSync(monthPath)
-        .filter(file => file.endsWith('.md'))
+      // 日フォルダを取得
+      const days = fs.readdirSync(monthPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
       
-      for (const file of files) {
-        const day = file.replace('.md', '')
-        const filePath = path.join(monthPath, file)
+      for (const day of days) {
+        const dayPath = path.join(monthPath, day)
+        const articlePath = path.join(dayPath, 'article.md')
+        
+        // article.mdファイルが存在するかチェック
+        if (!fs.existsSync(articlePath)) {
+          continue
+        }
         
         try {
-          const fileContent = fs.readFileSync(filePath, 'utf8')
+          const fileContent = fs.readFileSync(articlePath, 'utf8')
           const { data } = matter(fileContent)
           
           // isPublishedがfalseの場合はスキップ
@@ -70,7 +76,7 @@ async function getArticles(): Promise<Article[]> {
             day
           })
         } catch (error) {
-          console.error(`Error reading file ${filePath}:`, error)
+          console.error(`Error reading file ${articlePath}:`, error)
         }
       }
     }
