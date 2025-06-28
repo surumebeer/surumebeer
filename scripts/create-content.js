@@ -7,9 +7,9 @@ const contentType = process.argv[2];
 
 if (
   !contentType ||
-  !["articles", "products", "css-tips"].includes(contentType)
+  !["articles", "products", "learning-css"].includes(contentType)
 ) {
-  console.error("Usage: node create-content.js <articles|products|css-tips>");
+  console.error("Usage: node create-content.js <articles|products|learning-css>");
   process.exit(1);
 }
 
@@ -59,7 +59,7 @@ isPublished: false
 `;
     break;
 
-  case "css-tips":
+  case "learning-css":
     filename = "article.md";
     template = `---
 title: ""

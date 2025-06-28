@@ -9,7 +9,7 @@ import type { Metadata } from 'next'
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  const cssTipsDirectory = path.join(process.cwd(), 'content', 'css-tips')
+  const cssTipsDirectory = path.join(process.cwd(), 'content', 'learning-css')
   
   if (!fs.existsSync(cssTipsDirectory)) {
     return []
@@ -59,7 +59,7 @@ export async function generateStaticParams() {
       }
     }
   } catch (error) {
-    console.error('Error generating static params for css-tips:', error)
+    console.error('Error generating static params for learning-css:', error)
   }
   
   // 静的エクスポートモードでは空配列を返せないため、フォールバック用のダミーパラメータを追加
@@ -84,7 +84,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   if (!cssTip) {
     return {
-      title: "CSS TIPSが見つかりません"
+      title: "LEARNING CSSコンテンツが見つかりません"
     }
   }
   
@@ -138,7 +138,7 @@ const components = {
 }
 
 async function getCssTipContent(year: string, month: string, day: string) {
-  const filePath = path.join(process.cwd(), 'content', 'css-tips', year, month, day, 'article.md')
+  const filePath = path.join(process.cwd(), 'content', 'learning-css', year, month, day, 'article.md')
   
   try {
     const fileContent = fs.readFileSync(filePath, 'utf8')

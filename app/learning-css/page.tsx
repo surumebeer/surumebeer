@@ -5,7 +5,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "CSS TIPS",
+  title: "LEARNING CSS",
 }
 
 interface CssTip {
@@ -19,7 +19,7 @@ interface CssTip {
 }
 
 async function getCssTips(): Promise<CssTip[]> {
-  const cssTipsDirectory = path.join(process.cwd(), 'content', 'css-tips')
+  const cssTipsDirectory = path.join(process.cwd(), 'content', 'learning-css')
   
   if (!fs.existsSync(cssTipsDirectory)) {
     return []
@@ -93,16 +93,16 @@ export default async function CssTipsPage() {
   
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">CSS TIPS</h1>
+      <h1 className="text-3xl font-bold mb-8">LEARNING CSS</h1>
       
       {cssTips.length === 0 ? (
-        <p className="text-muted-foreground">CSS TIPSがありません。</p>
+        <p className="text-muted-foreground">LEARNING CSSコンテンツがありません。</p>
       ) : (
         <div className="grid gap-4">
           {cssTips.map((cssTip) => (
             <Link 
               key={cssTip.slug}
-              href={`/css-tips/${cssTip.slug}`} 
+              href={`/learning-css/${cssTip.slug}`} 
               className="block p-6 border rounded-lg hover:bg-accent transition-colors"
             >
               <h2 className="text-xl font-semibold mb-2">{cssTip.title}</h2>
