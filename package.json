@@ -9,7 +9,7 @@
     "lint": "next lint",
     "create:articles": "node scripts/create-content.js articles",
     "create:products": "node scripts/create-content.js products",
-    "create:css-tips": "node scripts/create-content.js css-tips"
+    "create:learning-css": "node scripts/create-content.js learning-css"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
