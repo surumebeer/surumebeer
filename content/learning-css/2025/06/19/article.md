@@ -92,3 +92,55 @@ Flexbox を使えば、複雑なレイアウトも簡単に実現できます：
 - `gap` で要素間の余白を設定
 
 これらの基本を押さえておけば、モダンな Web レイアウトが簡単に作れます！
+
+## test
+
+<CodeDemo>
+  <div style={{ resize: 'horizontal', overflow: 'auto', padding: '20px', backgroundColor: '#f5f5f5', border: '2px solid #ddd', borderRadius: '8px', minWidth: '300px', maxWidth: '100%' }}>
+    <p style={{ marginBottom: '16px', fontSize: '14px', color: '#666' }}>↔️ 右下の角をドラッグしてコンテナのサイズを変更してください</p>
+    
+    <div style={{ containerType: 'inline-size' }}>
+      <div 
+        style={{ 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          padding: '20px',
+          backgroundColor: 'white',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}
+      >
+        <img 
+          src="https://via.placeholder.com/200x150/007acc/ffffff?text=サンプル画像" 
+          alt="コンテナクエリデモ画像"
+          style={{ 
+            width: '100%',
+            height: 'auto',
+            borderRadius: '6px',
+            objectFit: 'cover'
+          }}
+        />
+        <div>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>レスポンシブカード</h3>
+          <p style={{ margin: '0', color: '#666', fontSize: '14px' }}>
+            このカードはコンテナのサイズに応じてレイアウトが変わります。コンテナを広げると横並びレイアウトになります。
+          </p>
+        </div>
+      </div>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        @container (min-width: 500px) {
+          .demo-container > div > div {
+            flex-direction: row !important;
+          }
+          .demo-container img {
+            width: 200px !important;
+            flex-shrink: 0;
+          }
+        }
+      ` }} />
+    </div>
+  </div>
+</CodeDemo>

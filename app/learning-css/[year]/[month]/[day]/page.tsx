@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { notFound } from 'next/navigation'
 import remarkGfm from 'remark-gfm'
+import rehypeHighlight from 'rehype-highlight'
 import type { Metadata } from 'next'
 
 export const dynamicParams = false
@@ -184,6 +185,7 @@ export default async function CssTipPage({ params }: PageProps) {
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm],
+                rehypePlugins: [rehypeHighlight],
               },
             }}
           />
