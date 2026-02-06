@@ -1,4 +1,3 @@
-[https://surumebeer.github.io/surumebeer/](https://surumebeer.github.io/surumebeer/)
 
 ## name
 
