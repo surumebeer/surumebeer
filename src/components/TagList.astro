@@ -1,0 +1,25 @@
+---
+import { withBase } from '../lib/url';
+import { normalizeTags, tagToSlug } from '../lib/tag-utils';
+
+interface Props {
+  tags: string[];
+}
+
+// 空タグや表記ゆれの重複をリンクとして出さない
+const tags = normalizeTags(Astro.props.tags);
+---
+
+{
+  tags.length > 0 && (
+    <ul class="tag-list">
+      {tags.map((tag) => (
+        <li>
+          <a class="tag" href={withBase(`/tags/${tagToSlug(tag)}/`)}>
+            #{tag}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

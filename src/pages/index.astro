@@ -1,0 +1,22 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// TOP は README.md をそのまま Profile として表示する。
+const profile = await getEntry('profile', 'readme');
+const rendered = profile ? await render(profile) : null;
+const Content = rendered?.Content;
+---
+
+<BaseLayout title="surumebeer" description="surumebeer のプロフィール">
+  <h1 class="page-title">Profile</h1>
+  {
+    Content ? (
+      <div class="prose">
+        <Content />
+      </div>
+    ) : (
+      <p class="empty">プロフィール情報が見つかりません。</p>
+    )
+  }
+</BaseLayout>

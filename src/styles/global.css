@@ -1,0 +1,287 @@
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f6f7f9;
+  --fg: #1a1c1e;
+  --fg-muted: #5c6470;
+  --border: #e3e6ea;
+  --accent: #2563eb;
+  /* ダークなコードブロックをライト背景に置くための枠線 */
+  --code-border: #d8dce2;
+  --radius: 8px;
+  --content-width: 44rem;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", Meiryo, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --bg-subtle: #1a1d21;
+    --fg: #e8eaed;
+    --fg-muted: #9aa3ad;
+    --border: #2b2f35;
+    --accent: #7aa2f7;
+    --code-border: #2b2f35;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---- layout ---- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-nav {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-nav__brand {
+  font-weight: 700;
+  color: var(--fg);
+  margin-right: auto;
+}
+
+.site-nav__link {
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav__link:hover {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.site-nav__link[aria-current='page'] {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}
+
+.site-main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+}
+
+.page-title {
+  font-size: 1.9rem;
+  line-height: 1.3;
+  margin: 0 0 0.5rem;
+}
+
+.page-lead {
+  color: var(--fg-muted);
+  margin: 0 0 2rem;
+}
+
+/* ---- article list ---- */
+
+.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.article-card__title {
+  font-size: 1.15rem;
+  margin: 0 0 0.25rem;
+}
+
+.article-card__meta {
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.article-card__description {
+  margin: 0 0 0.5rem;
+  color: var(--fg-muted);
+}
+
+/* ---- tags ---- */
+
+.tag-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  color: var(--fg-muted);
+}
+
+a.tag:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.tag__count {
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: var(--fg-muted);
+}
+
+/* ---- markdown ---- */
+
+.prose {
+  overflow-wrap: break-word;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  line-height: 1.4;
+  margin: 2.25rem 0 0.75rem;
+}
+
+.prose h1 { font-size: 1.8rem; }
+.prose h2 {
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3rem;
+}
+.prose h3 { font-size: 1.15rem; }
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.15rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose blockquote {
+  margin: 0 0 1.15rem;
+  padding: 0.25rem 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.15rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* インラインコード（コードブロック内の span は除く） */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+/* ---- syntax highlight (shiki) ---- */
+
+/*
+ * コードブロックは常にダークテーマ (one-dark-pro)。
+ * 配色は shiki がインラインスタイルで載せるので、ここでは器だけを整える。
+ */
+.prose pre.astro-code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: 0 0 1.15rem;
+  tab-size: 2;
+}
+
+.prose pre.astro-code code {
+  display: block;
+  min-width: fit-content;
+}

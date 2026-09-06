@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTagSummaries } from '../../lib/tags';
+import { withBase } from '../../lib/url';
+
+const tags = await getTagSummaries();
+---
+
+<BaseLayout title="tags" description="記事に付けられたタグの一覧">
+  <h1 class="page-title">tags</h1>
+  <p class="page-lead">記事に付けられたタグの一覧です。</p>
+  {
+    tags.length === 0 ? (
+      <p class="empty">タグはまだありません。</p>
+    ) : (
+      <ul class="tag-list">
+        {tags.map((tag) => (
+          <li>
+            <a class="tag" href={withBase(`/tags/${tag.slug}/`)}>
+              #{tag.name} <span class="tag__count">({tag.items.length})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>

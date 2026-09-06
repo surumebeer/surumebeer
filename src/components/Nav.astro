@@ -1,0 +1,31 @@
+---
+import { withBase } from '../lib/url';
+
+const links = [
+  { href: withBase('/'), label: 'TOP' },
+  { href: withBase('/articles/'), label: 'articles' },
+  { href: withBase('/tags/'), label: 'tags' },
+];
+
+/** 現在地判定。TOP のみ完全一致、それ以外は前方一致で配下ページも点灯させる。 */
+const current = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href === withBase('/') ? current === href : current.startsWith(href);
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="グローバルナビゲーション">
+    <a class="site-nav__brand" href={withBase('/')}>surumebeer</a>
+    {
+      links.map((link) => (
+        <a
+          class="site-nav__link"
+          href={link.href}
+          aria-current={isCurrent(link.href) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
