@@ -26,9 +26,6 @@ const { articles } = Astro.props;
               {formatDate(article.data.pubDate)}
             </time>
           </p>
-          {article.data.description && (
-            <p class="article-card__description">{article.data.description}</p>
-          )}
           <TagList tags={article.data.tags} />
         </li>
       ))}
