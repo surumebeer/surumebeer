@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout title="404">
+  <h1 class="page-title">404</h1>
+  <p class="page-lead">ページが見つかりませんでした。</p>
+  <p><a href={withBase('/')}>TOP へ戻る</a></p>
+</BaseLayout>

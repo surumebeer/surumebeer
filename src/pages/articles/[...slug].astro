@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagList from '../../components/TagList.astro';
+import { formatDate } from '../../lib/article-utils';
+import { getPublishedArticles } from '../../lib/tags';
+
+export const getStaticPaths = (async () => {
+  const articles = await getPublishedArticles();
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+
+<BaseLayout title={article.data.title} description={article.data.description}>
+  <article>
+    <h1 class="page-title">{article.data.title}</h1>
+    <p class="article-card__meta">
+      <time datetime={article.data.pubDate.toISOString()}>
+        {formatDate(article.data.pubDate)}
+      </time>
+      {
+        article.data.updatedDate && (
+          <span> / 更新 {formatDate(article.data.updatedDate)}</span>
+        )
+      }
+    </p>
+    <TagList tags={article.data.tags} />
+    <div class="prose" style="margin-top: 2rem">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

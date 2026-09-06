@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleList from '../../components/ArticleList.astro';
+import { getPublishedArticles } from '../../lib/tags';
+
+const articles = await getPublishedArticles();
+---
+
+<BaseLayout title="articles" description="surumebeer が書いた記事の一覧">
+  <h1 class="page-title">articles</h1>
+  <p class="page-lead">書いた記事の一覧です。</p>
+  <ArticleList articles={articles} />
+</BaseLayout>

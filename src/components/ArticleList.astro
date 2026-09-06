@@ -1,0 +1,37 @@
+---
+import TagList from './TagList.astro';
+import { withBase } from '../lib/url';
+import { formatDate } from '../lib/article-utils';
+import type { Article } from '../lib/tags';
+
+interface Props {
+  articles: Article[];
+}
+
+const { articles } = Astro.props;
+---
+
+{
+  articles.length === 0 ? (
+    <p class="empty">記事はまだありません。</p>
+  ) : (
+    <ul class="article-list">
+      {articles.map((article) => (
+        <li class="article-card">
+          <h2 class="article-card__title">
+            <a href={withBase(`/articles/${article.id}/`)}>{article.data.title}</a>
+          </h2>
+          <p class="article-card__meta">
+            <time datetime={article.data.pubDate.toISOString()}>
+              {formatDate(article.data.pubDate)}
+            </time>
+          </p>
+          {article.data.description && (
+            <p class="article-card__description">{article.data.description}</p>
+          )}
+          <TagList tags={article.data.tags} />
+        </li>
+      ))}
+    </ul>
+  )
+}
