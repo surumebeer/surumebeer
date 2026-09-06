@@ -4,11 +4,13 @@ import { satteri } from '@astrojs/markdown-satteri';
 
 import { baseUrlPlugin } from './src/plugins/base-url-plugin.mjs';
 
-const base = '/surumebeer';
+// カスタムドメインで配信するのでサブパスは無し。
+// GitHub Pages のプロジェクトページに戻す場合はここを '/surumebeer' にする。
+const base = '/';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://surumebeer.github.io',
+  site: 'https://surumebeer.me',
   base,
   trailingSlash: 'always',
   markdown: {
