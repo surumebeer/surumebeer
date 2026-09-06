@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio / blog deployed as a static site to GitHub Pages at
-`https://surumebeer.github.io/surumebeer/`. Built with **Astro 7** (no UI framework
+Personal portfolio / blog deployed as a static site to GitHub Pages, served from the
+custom domain `https://surumebeer.me/`. Built with **Astro 7** (no UI framework
 integration — plain `.astro` components) and TypeScript.
 
 ## Development Commands
@@ -29,13 +29,16 @@ properties) and import with an explicit `.ts` extension. Only modules that do no
 
 ## Architecture
 
-### Static build with basePath
+### Static build
 
-`astro.config.mjs` sets `site: 'https://surumebeer.github.io'`, `base: '/surumebeer'`,
-and `trailingSlash: 'always'`. Output is fully static (`dist/`).
+`astro.config.mjs` sets `site: 'https://surumebeer.me'`, `base: '/'`, and
+`trailingSlash: 'always'`. Output is fully static (`dist/`).
 
-Because of `base`, **never hard-code internal links**. Always build them with
-`withBase()` from `src/lib/url.ts`, which prefixes `import.meta.env.BASE_URL`.
+The site used to live at `surumebeer.github.io/surumebeer/`, so the base-path machinery is
+still in place but currently inert: with `base: '/'`, `withBase()` (`src/lib/url.ts`) is a
+pass-through and the base-url Markdown plugin early-returns. Keep using `withBase()` for
+internal links in `.astro` files — that is the one switch that makes moving back to a
+project page (or onto any other subpath) a one-line change in `astro.config.mjs`.
 
 ### Routes
 
@@ -46,7 +49,7 @@ Because of `base`, **never hard-code internal links**. Always build them with
 | `/articles/{YYYY}/{MM}/{DD}/{slug}/` | `src/pages/articles/[...slug].astro` | Article detail |
 | `/tags/` | `src/pages/tags/index.astro` | All tags with article counts |
 | `/tags/{tag}/` | `src/pages/tags/[tag].astro` | Articles for one tag |
-| `/404` | `src/pages/404.astro` | Not found |
+| `/404` | `src/pages/404.astro` | Not found — passes `noindex` to the layout |
 
 ### Content collections (`src/content.config.ts`)
 
@@ -114,9 +117,12 @@ switching to `unified()` from `@astrojs/markdown-remark`, which this project doe
 
 `src/plugins/base-url-plugin.mjs` is a Sätteri hast plugin that prefixes root-relative
 URLs (`/articles/`, `/images/x.png`) inside Markdown with the base path. Astro only
-resolves `base` for links in `.astro` files, so without this plugin such links would 404
-on GitHub Pages. It covers `href`/`src`/`action`/`data` and `srcset`; absolute,
+resolves `base` for links in `.astro` files, so on a subpath deployment such links would
+404 without it. It covers `href`/`src`/`action`/`data` and `srcset`; absolute,
 protocol-relative, and already-base-prefixed URLs are left alone.
+
+**It does nothing while `base` is `'/'`** — both visitors early-return on an empty base.
+It is kept wired up so a move back to a subpath needs no code change.
 
 It works in two passes because Markdown produces two kinds of node:
 
@@ -163,6 +169,16 @@ GitHub Actions (`.github/workflows/deploy.yml`) runs `check` → `test` → `bui
 pushes to `main` and pull requests. Artifact upload and the `deploy` job are gated on
 `github.event_name == 'push' && github.ref == 'refs/heads/main'`, so a PR build never
 publishes to production Pages. Uses Node 22 and `actions/deploy-pages@v4`.
+
+`BaseLayout` takes a `noindex` prop. GitHub Pages serves `404.html` for *every* unknown
+URL, so emitting a canonical/`og:url` there would point every missing page at `/404/`;
+`noindex` drops both and emits `<meta name="robots" content="noindex">` instead.
+
+`public/CNAME` holds `surumebeer.me` and is copied to `dist/CNAME` on every build — that
+is what tells GitHub Pages which custom domain to serve. **Deleting it un-sets the custom
+domain in the repo settings on the next deploy**, so leave it in place unless the domain
+is actually changing. DNS (apex A/AAAA records pointing at GitHub Pages) is configured
+outside this repo.
 
 ## Key Conventions
 

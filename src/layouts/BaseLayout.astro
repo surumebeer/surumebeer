@@ -6,9 +6,15 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /**
+   * 実体の URL を持たないページ（404 など）に指定する。
+   * GitHub Pages は未知の URL すべてに 404.html を返すので、
+   * canonical / og:url を出すとどの URL も /404/ を指してしまう。
+   */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const siteName = 'surumebeer';
 const pageTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
@@ -21,12 +27,16 @@ const year = new Date().getFullYear();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
-    <link rel="canonical" href={canonical.href} />
+    {noindex ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <link rel="canonical" href={canonical.href} />
+    )}
     <title>{pageTitle}</title>
     {description && <meta name="description" content={description} />}
     <meta property="og:title" content={pageTitle} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical.href} />
+    {!noindex && <meta property="og:url" content={canonical.href} />}
     {description && <meta property="og:description" content={description} />}
   </head>
   <body>
